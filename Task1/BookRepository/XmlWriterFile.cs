@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using Task1.BookListModel;
 using static System.String;
 
 namespace Task1.BookRepository
 {
-    class XmlWriter<T> : IBookListStorage<T>
+    class XmlWriterFile : IBookListStorage
     {
         #region Fields
 
@@ -32,7 +29,7 @@ namespace Task1.BookRepository
         /// </summary>
         /// <param name="path">Path to XML file.</param>
 
-        public XmlWriter(string path)
+        public XmlWriterFile(string path)
         {
             Path = path;
         }
@@ -46,25 +43,26 @@ namespace Task1.BookRepository
         /// </summary>
         /// <param name="books">List of books.</param>
 
-        public void WriteBooks(IEnumerable<T> books)
+        public void WriteBooks(IEnumerable<Book> books)
         {
-            BookListService bookListService = (BookListService)books;
+            
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings {Indent = true};
-            using (XmlWriter xmlWriter = XmlWriter.Create(Path, xmlWriterSettings))
+            
+            using (var xmlWriterFile = XmlWriter.Create(Path, xmlWriterSettings))
             {
-                xmlWriter.WriteStartElement("books");
-                foreach (var book in bookListService.ListBooks)
+                xmlWriterFile.WriteStartElement("books");
+                foreach (var book in books)
                 {
-                    xmlWriter.WriteStartElement("book");
-                    xmlWriter.WriteElementString("Author", book.Author);
-                    xmlWriter.WriteElementString("Title", book.Title);
-                    xmlWriter.WriteElementString("Publisher", book.Publisher);
-                    xmlWriter.WriteElementString("YearIssued", book.YearIssued.ToString());
-                    xmlWriter.WriteElementString("NumberOfPages", book.NumberOfPages.ToString());
-                    xmlWriter.WriteEndElement();
+                    xmlWriterFile.WriteStartElement("book");
+                    xmlWriterFile.WriteElementString("Author", book.Author);
+                    xmlWriterFile.WriteElementString("Title", book.Title);
+                    xmlWriterFile.WriteElementString("Publisher", book.Publisher);
+                    xmlWriterFile.WriteElementString("YearIssued", book.YearIssued.ToString());
+                    xmlWriterFile.WriteElementString("NumberOfPages", book.NumberOfPages.ToString());
+                    xmlWriterFile.WriteEndElement();
                 }
 
-                xmlWriter.WriteEndElement();
+                xmlWriterFile.WriteEndElement();
             }
         }
 
@@ -73,7 +71,7 @@ namespace Task1.BookRepository
         /// </summary>
         /// <returns>List of books.</returns>
 
-        public IEnumerable<T> ReadBooks()
+        public IEnumerable<Book> ReadBooks()
         {
             var settings = new XmlReaderSettings
             {
@@ -101,7 +99,7 @@ namespace Task1.BookRepository
                 }
             }
 
-            return (IEnumerable<T>) books;
+            return books;
         } 
 
         #endregion

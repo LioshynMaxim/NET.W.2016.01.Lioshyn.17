@@ -7,7 +7,7 @@ using static System.String;
 
 namespace Task1.BookRepository
 {
-    class LINQToXML<T> : IBookListStorage<T>
+    class LINQToXML : IBookListStorage
     {
         #region Fields
 
@@ -45,12 +45,10 @@ namespace Task1.BookRepository
         /// </summary>
         /// <param name="books">List of books.</param>
 
-        public void WriteBooks(IEnumerable<T> books)
+        public void WriteBooks(IEnumerable<Book> books)
         {
-            BookListService bookListService = (BookListService)books;
-
             XElement xElement = new XElement("Books");
-            foreach (var writeBook in bookListService?.ListBooks)
+            foreach (var writeBook in books)
             {
                 xElement.Add(new XElement("book",
                     new XElement("Author", writeBook?.Author),
@@ -61,7 +59,7 @@ namespace Task1.BookRepository
                     ));
             }
 
-            bookListService?.SaveFromBookListToFile(Path);
+            xElement.Save(Path);
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace Task1.BookRepository
         /// </summary>
         /// <returns>List of books.</returns>
 
-        public IEnumerable<T> ReadBooks()
+        public IEnumerable<Book> ReadBooks()
         {
             string author = "", title = "", publisher = "";
             int yearIssued = 0;
@@ -103,7 +101,7 @@ namespace Task1.BookRepository
                 }
             }
 
-            return (IEnumerable<T>)books;
+            return books;
         }
 
         #endregion

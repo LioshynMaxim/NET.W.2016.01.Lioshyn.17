@@ -23,7 +23,7 @@ namespace Task1.BookListModel
         /// </summary>
         /// <param name="bookListStorage">List of books.</param>
 
-        public BookListService(IBookListStorage<Book> bookListStorage)
+        public BookListService(IBookListStorage bookListStorage)
         {
             if (bookListStorage == null)
                 throw new ArgumentNullException();

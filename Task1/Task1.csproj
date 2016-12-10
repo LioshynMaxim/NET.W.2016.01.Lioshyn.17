@@ -54,7 +54,7 @@
     <Compile Include="BookRepository\BinarySerializator.cs" />
     <Compile Include="BookRepository\IBookListStorage.cs" />
     <Compile Include="BookRepository\OperationWithFile.cs" />
-    <Compile Include="BookRepository\XmlWriter.cs" />
+    <Compile Include="BookRepository\XmlWriterFile.cs" />
     <Compile Include="BookUIModel\BookUIHelpFunction.cs" />
     <Compile Include="BookUIModel\BooUI.cs" />
     <Compile Include="BookRepository\LINQToXML.cs" />

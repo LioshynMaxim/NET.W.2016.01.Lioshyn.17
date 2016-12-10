@@ -7,7 +7,7 @@ using static System.String;
 
 namespace Task1.BookRepository
 {
-    class BinarySerializator<T> : IBookListStorage<T>
+    class BinarySerializator : IBookListStorage
     {
         #region Fields
 
@@ -48,7 +48,7 @@ namespace Task1.BookRepository
         /// </summary>
         /// <param name="books">List of books.</param>
 
-        public void WriteBooks(IEnumerable<T> books)
+        public void WriteBooks(IEnumerable<Book> books)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             using (FileStream fileStream = File.Create(Path))
@@ -62,7 +62,7 @@ namespace Task1.BookRepository
         /// </summary>
         /// <returns>List of books.</returns>
 
-        public IEnumerable<T> ReadBooks()
+        public IEnumerable<Book> ReadBooks()
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             using (FileStream fileStream = File.OpenRead(Path))
@@ -70,7 +70,7 @@ namespace Task1.BookRepository
                 bookListService = (BookListService) binaryFormatter.Deserialize(fileStream);
             }
 
-            return (IEnumerable<T>) bookListService.ListBooks;
+            return bookListService.ListBooks;
         }
 
         #endregion

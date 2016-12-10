@@ -5,7 +5,7 @@ using Task1.BookListModel;
 
 namespace Task1.BookRepository
 {
-    public class OperationWithFile : IBookListStorage<Book>
+    public class OperationWithFile : IBookListStorage
     {
         #region Field
 
